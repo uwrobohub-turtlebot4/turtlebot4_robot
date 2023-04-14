@@ -32,6 +32,7 @@ def generate_launch_description():
                 'inverted': False,
                 'angle_compensate': True,
                 'auto_standby': True,
+                'auto_standby_static_subscribers': 1
             }],
         )
 
