@@ -23,7 +23,7 @@ from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDesc
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution
 
-from launch_ros.actions import PushRosNamespace
+from launch_ros.actions import PushRosNamespace, Node
 
 from nav2_common.launch import RewrittenYaml
 
@@ -69,6 +69,12 @@ def generate_launch_description():
         [pkg_turtlebot4_description, 'launch', 'robot_description.launch.py']
     )
 
+    foxglove_bridge_node = Node(
+            package="foxglove_bridge",
+            executable="foxglove_bridge",
+            name="foxglove_bridge",
+            parameters=[{"capabilities":["clientPublish","services"]}])
+
     actions = [
             PushRosNamespace(namespace),
 
@@ -103,4 +109,5 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(param_file_cmd)
     ld.add_action(turtlebot4_standard)
+    ld.add_action(foxglove_bridge_node)
     return ld
